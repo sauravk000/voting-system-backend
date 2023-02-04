@@ -1,9 +1,10 @@
-const {Router} = require('express');
+import { Router } from "express";
 const router = Router();
 
-
-router.get('/:cID', (res, req) => {
-    
+router.get("/:cID", (req, res) => {
+  res.json({
+    cid: req.params.cID,
+  });
 });
 
-module.exports = router;
+export default router;
