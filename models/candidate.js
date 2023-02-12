@@ -1,7 +1,7 @@
 import mongoose, { model } from "mongoose";
 const Schema = mongoose.Schema;
 
-const candidateSchema = new Schema({
+const CandidateSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -16,6 +16,6 @@ const candidateSchema = new Schema({
   },
 });
 
-const Candidate = model("Candidate", candidateSchema);
+const Candidate = model("Candidate", CandidateSchema);
 
 export default Candidate;

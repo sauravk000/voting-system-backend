@@ -23,4 +23,4 @@ mongoose.connection
     console.err("Database error");
   });
 
-export { mongoose };
+export default mongoose;
