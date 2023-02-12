@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
-import "dotenv/config";
+import mongoose from 'mongoose';
+import 'dotenv/config';
 
 const { DB_URI } = process.env;
 
-mongoose.set("strictQuery", false);
+mongoose.set('strictQuery', false);
 
 //Connecting to MongoDB server
 mongoose.connect(DB_URI, {
@@ -13,14 +13,14 @@ mongoose.connect(DB_URI, {
 
 //Various events
 mongoose.connection
-  .on("open", () => {
-    console.log("Database opened");
+  .on('open', () => {
+    console.log('Database opened');
   })
-  .on("close", () => {
-    console.log("Database closed");
+  .on('close', () => {
+    console.log('Database closed');
   })
-  .on("error", () => {
-    console.err("Database error");
+  .on('error', () => {
+    console.error('Database error');
   });
 
 export default mongoose;
