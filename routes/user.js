@@ -29,7 +29,9 @@ router.post('/login', async (req, res) => {
       const result = await bcrypt.compare(req.body.password, user.password);
       if (result) {
         // Signing the token
-        const token = jwt.sign({ username: user.username }, SECRET);
+        const token = jwt.sign({ username: user.username }, SECRET, {
+          expiresIn: '1d',
+        });
         res.json({ token });
       } else {
         res.status(400).json({ error: "password doesn't match" });

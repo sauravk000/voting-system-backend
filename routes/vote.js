@@ -1,4 +1,4 @@
-import { response, Router } from 'express';
+import { Router } from 'express';
 import authorize from '../auth/authorize.js';
 const router = Router();
 

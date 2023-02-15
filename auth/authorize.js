@@ -13,13 +13,13 @@ const authorize = async (req, res, next) => {
           req.user = payload;
           next();
         } else {
-          res.status(400).json({ error: 'Token cannot be verified.' });
+          res.status(403).json({ error: 'Token cannot be verified.' });
         }
       } else {
-        res.status(400).json({ error: 'Invalid Auth header' });
+        res.status(401).json({ error: 'Invalid Auth header' });
       }
     } else {
-      res.status(400).json({ error: 'No authorization header' });
+      res.status(401).json({ error: 'No authorization header' });
     }
   } catch (error) {
     res.status(400).json({ error });
