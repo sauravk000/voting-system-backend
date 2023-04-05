@@ -11,6 +11,7 @@ contract CandidateHandler {
     string description;
     mapping(address => uint) voteMapping;
     bool flag;
+    address add;
   }
   struct Team {
     Candidate[] candidates;
@@ -55,7 +56,7 @@ contract CandidateHandler {
       c.name = name;
       c.description = description;
       c.flag = true;
-      // t.candidates.push(c);
+      c.add = msg.sender;
       t.cidArr.push(cidc);
       t.addressMap[msg.sender] = true;
       return cidc;
@@ -79,9 +80,15 @@ contract CandidateHandler {
     return cidc;
   }
 
-  function getTeamToken(uint cidc) public view returns (uint) {
+  event Token(uint token);
+
+  function getTeamToken(uint cidc) public returns (uint) {
     Team storage t = getTeam(cidc);
-    if (t.creator == msg.sender) return t.token;
+    uint c = t.token;
+    if (t.creator == msg.sender) {
+      emit Token(c);
+      return t.token;
+    }
     return 0;
   }
 
@@ -102,9 +109,16 @@ contract CandidateHandler {
     emit VoteDone(false);
   }
 
-  // function getAllCandidates(
-  //   uint tCid
-  // ) public view returns (Candidate[] memory) {
-  //   return getTeam(tCid).candidates;
-  // }
+  event CandidateEvent(
+    string name,
+    uint votes,
+    string description,
+    address add
+  );
+
+  function getCandidate(uint tCid, uint cid) external {
+    Team storage t = getTeam(tCid);
+    Candidate storage c = t.candidateMapping[cid];
+    emit CandidateEvent(c.name, c.votes, c.description, c.add);
+  }
 }
