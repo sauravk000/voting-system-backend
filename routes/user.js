@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
     //Creates a new user
     const user = await User.create(req.body);
 
-    res.json(user);
+    res.json({success: true});
   } catch (err) {
     res.status(400).json({ error: err });
   }
@@ -34,10 +34,10 @@ router.post('/login', async (req, res) => {
         });
         res.json({ token });
       } else {
-        res.status(400).json({ error: "password doesn't match" });
+        res.status(401).json({ error: "password doesn't match" });
       }
     } else {
-      res.status(400).json({ error: "User doesn't exist" });
+      res.status(401).json({ error: "User doesn't exist" });
     }
   } catch (error) {
     res.status(400).json({ error });
