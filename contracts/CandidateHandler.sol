@@ -8,7 +8,6 @@ contract CandidateHandler {
   struct Candidate {
     uint64 votes;
     string name;
-    string description;
     mapping(address => uint) voteMapping;
     bool flag;
     address add;
@@ -42,23 +41,21 @@ contract CandidateHandler {
     return t;
   }
 
+  event CandidateToken(uint256);
+
   // Add a candidate
-  function addCandidate(
-    uint cid,
-    string memory name,
-    string memory description
-  ) public returns (uint) {
+  function addCandidate(uint cid, string calldata name) public returns (uint) {
     Team storage t = getTeam(cid);
     //If team exists
     if (t.flag) {
       uint cidc = randMod();
       Candidate storage c = t.candidateMapping[cidc];
       c.name = name;
-      c.description = description;
       c.flag = true;
       c.add = msg.sender;
       t.cidArr.push(cidc);
       t.addressMap[msg.sender] = true;
+      emit CandidateToken(cidc);
       return cidc;
     }
     return 0;
@@ -67,7 +64,7 @@ contract CandidateHandler {
   event TeamID(uint256 cidc);
 
   //New Team
-  function createTeam(string memory name) public returns (uint256) {
+  function createTeam(string calldata name) public returns (uint256) {
     uint cidc = randMod();
     uint toek = randMod();
     Team storage t = idToTeamMap[cidc];
@@ -109,16 +106,11 @@ contract CandidateHandler {
     emit VoteDone(false);
   }
 
-  event CandidateEvent(
-    string name,
-    uint votes,
-    string description,
-    address add
-  );
+  event CandidateEvent(string name, uint votes, address add);
 
   function getCandidate(uint tCid, uint cid) external {
     Team storage t = getTeam(tCid);
     Candidate storage c = t.candidateMapping[cid];
-    emit CandidateEvent(c.name, c.votes, c.description, c.add);
+    emit CandidateEvent(c.name, c.votes, c.add);
   }
 }

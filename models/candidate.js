@@ -1,12 +1,8 @@
 import mongoose, { model } from "mongoose";
 const Schema = mongoose.Schema;
 
-const CandidateSchema = new Schema({
+export const CandidateSchema = new Schema({
   name: {
-    type: String,
-    required: true,
-  },
-  description: {
     type: String,
     required: true,
   },
@@ -14,6 +10,11 @@ const CandidateSchema = new Schema({
     type: String,
     require: true,
   },
+  cid: {
+    type: String,
+    require: true,
+    unique: true
+  }
 });
 
 const Candidate = model("Candidate", CandidateSchema);

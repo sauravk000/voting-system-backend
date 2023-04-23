@@ -1,12 +1,12 @@
 import hre from "hardhat";
-import fs, { write } from 'fs';
+import fs from 'fs';
 import util from 'util';
 
 
 const writeFile = util.promisify(fs.writeFile);
 
 async function verify(contractAddress) {
-  await hre.run("verify:verify", {address: contractAddress});
+  await hre.run("verify:verify", {address: contractAddress, contract: "./contracts/CandidateHandler.sol"});
 }
 
 async function main() {

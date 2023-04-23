@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ username: user.username }, SECRET, {
           expiresIn: '1d',
         });
-        res.json({ token });
+        res.json({ token, isCandidate: user.isCandidate });
       } else {
         res.status(401).json({ error: "password doesn't match" });
       }

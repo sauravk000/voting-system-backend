@@ -20,9 +20,9 @@ module.exports = { solidity: '0.8.17' , networks: {
       url: process.env.ETH_MAINNET_KEY
     }
   },
-  sepoli: {
-    url: process.env.SEPOLI_TESTNET,
-    accounts: [process.env.SEPOLI_ACC]
+  sepolia: {
+    url: process.env.SEPOLIA_TESTNET,
+    accounts: [process.env.SEPOLIA_ACC]
   },
 },
 etherscan: {

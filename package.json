@@ -20,6 +20,7 @@
     "hardhat-gas-reporter": "^1.0.9",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.0",
+    "react-vis": "^1.11.12",
     "solidity-coverage": "^0.8.2"
   },
   "devDependencies": {
