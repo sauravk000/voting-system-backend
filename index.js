@@ -3,6 +3,7 @@ import cors from 'cors';
 import candidate from './routes/candidate.js';
 import user from './routes/user.js';
 import vote from './routes/vote.js';
+import team from './routes/team.js';
 import 'dotenv/config';
 
 const PORT = process.env.PORT;
@@ -17,6 +18,8 @@ app.use('/candidate', candidate);
 app.use('/user', user);
 
 app.use('/vote', vote);
+
+app.use('/team', team);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

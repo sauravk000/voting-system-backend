@@ -1,5 +1,5 @@
-import mongoose, { model } from "mongoose";
-const Schema = mongoose.Schema;
+import mongoose from '../db/connection.js';
+const { Schema, model } = mongoose;
 
 const teamSchema = new Schema({
   name: {
@@ -11,7 +11,11 @@ const teamSchema = new Schema({
     required: true,
   },
   candidates: {
-    type: [string],
-    required: true
+    type: [String],
+    required: false
   }
 })
+
+const Team = model('Team', teamSchema);
+
+export default Team;

@@ -113,4 +113,22 @@ contract CandidateHandler {
     Candidate storage c = t.candidateMapping[cid];
     emit CandidateEvent(c.name, c.votes, c.add);
   }
+
+  function getCandidateName(
+    uint tCid,
+    uint cid
+  ) external view returns (string memory) {
+    Team storage t = getTeam(tCid);
+    Candidate storage c = t.candidateMapping[cid];
+    return c.name;
+  }
+
+  function getCandidateVotes(
+    uint tCid,
+    uint cid
+  ) external view returns (uint256) {
+    Team storage t = getTeam(tCid);
+    Candidate storage c = t.candidateMapping[cid];
+    return c.votes;
+  }
 }

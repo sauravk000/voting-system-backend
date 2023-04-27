@@ -1,21 +1,29 @@
-import { Router } from "express";
-import Candidate from "../models/candidate.js";
+import { Router } from 'express';
+import Candidate from '../models/candidate.js';
 const router = Router();
 
-router.get("/:cID", (req, res) => {
-  res.json({
-    cid: req.params.cID,
-  });
+router.get('/:cID', (req, res) => {
+  try {
+    const candidate = Candidate.findOne({
+      cid: req.params.cID,
+    });
+    if(candidate)
+      res.json(candidate.toObject());
+    else
+      res.status(404).json({error: 'Not found'});
+  } catch (err) {
+    res.status(400).json({ error: err });
+  }
 });
 
 router.post('/', async (req, res) => {
-  try{
-    console.log("Entered");
+  try {
+    console.log('Entered');
     const c = await Candidate.create(req.body);
-    res.json({success: true});
-  }catch(err) {
+    res.json({ success: true });
+  } catch (err) {
     res.status(400).json({ error: err });
   }
-})
+});
 
 export default router;
