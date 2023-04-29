@@ -38,6 +38,7 @@ contract CandidateHandler {
 
   function getTeam(uint cid) private view returns (Team storage) {
     Team storage t = idToTeamMap[cid];
+    require(t.flag);
     return t;
   }
 
@@ -54,7 +55,6 @@ contract CandidateHandler {
       c.flag = true;
       c.add = msg.sender;
       t.cidArr.push(cidc);
-      t.addressMap[msg.sender] = true;
       emit CandidateToken(cidc);
       return cidc;
     }
@@ -64,7 +64,8 @@ contract CandidateHandler {
   event TeamID(uint256 cidc);
 
   //New Team
-  function createTeam(string calldata name) public returns (uint256) {
+  function createTeam(string calldata name) public {
+    require(bytes(name).length != 0);
     uint cidc = randMod();
     uint toek = randMod();
     Team storage t = idToTeamMap[cidc];
@@ -74,43 +75,48 @@ contract CandidateHandler {
     t.creator = msg.sender;
     t.cidArr.push(cidc);
     emit TeamID(cidc);
-    return cidc;
   }
 
   event Token(uint token);
 
-  function getTeamToken(uint cidc) public returns (uint) {
+  function getTeamToken(uint cidc) public {
     Team storage t = getTeam(cidc);
     uint c = t.token;
-    if (t.creator == msg.sender) {
-      emit Token(c);
-      return t.token;
-    }
-    return 0;
+    require(t.creator == msg.sender);
+    emit Token(c);
   }
 
-  event VoteDone(bool voteDone);
+  function addVoter(uint tCid, address add) public {
+    Team storage t = getTeam(tCid);
+    require(t.flag && t.creator == msg.sender);
+    t.addressMap[add] = true;
+  }
+
+  function removeVoter(uint tCid, address add) public {
+    Team storage t = getTeam(tCid);
+    require(t.flag && t.creator == msg.sender && t.addressMap[add]);
+    t.addressMap[add] = false;
+  }
 
   function vote(uint tCid, uint cid) external {
     Team storage t = getTeam(tCid);
-    if (t.flag) {
-      Candidate storage c = t.candidateMapping[cid];
-      if (
-        c.flag && c.voteMapping[msg.sender] == 0 && t.addressMap[msg.sender]
-      ) {
-        c.voteMapping[msg.sender] = 1;
-        c.votes++;
-        emit VoteDone(true);
-      }
-    }
-    emit VoteDone(false);
+    require(t.flag);
+    Candidate storage c = t.candidateMapping[cid];
+    require(
+      c.flag && c.voteMapping[msg.sender] == 0 && t.addressMap[msg.sender]
+    );
+
+    c.voteMapping[msg.sender] = 1;
+    c.votes++;
   }
 
   event CandidateEvent(string name, uint votes, address add);
 
   function getCandidate(uint tCid, uint cid) external {
     Team storage t = getTeam(tCid);
+    require(t.flag);
     Candidate storage c = t.candidateMapping[cid];
+    require(c.flag);
     emit CandidateEvent(c.name, c.votes, c.add);
   }
 
@@ -119,7 +125,9 @@ contract CandidateHandler {
     uint cid
   ) external view returns (string memory) {
     Team storage t = getTeam(tCid);
+    require(t.flag);
     Candidate storage c = t.candidateMapping[cid];
+    require(c.flag);
     return c.name;
   }
 
@@ -128,7 +136,9 @@ contract CandidateHandler {
     uint cid
   ) external view returns (uint256) {
     Team storage t = getTeam(tCid);
+    require(t.flag);
     Candidate storage c = t.candidateMapping[cid];
+    require(c.flag);
     return c.votes;
   }
 }
