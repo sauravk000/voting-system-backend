@@ -19,7 +19,7 @@ async function main() {
   const CandidateHandler = await hre.ethers.getContractFactory("CandidateHandler");
   const candidateHandler = await CandidateHandler.deploy();
   await candidateHandler.deployed();
-  // await candidateHandler.deployTransaction.wait(5);
+  await candidateHandler.deployTransaction.wait(5);
 
   await writeFile('contract.txt', candidateHandler.address);
   await verify(candidateHandler.address);
