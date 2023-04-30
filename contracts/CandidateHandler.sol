@@ -42,23 +42,32 @@ contract CandidateHandler {
     return t;
   }
 
+  function getTeamName(uint cid) private view returns (string memory) {
+    Team storage t = idToTeamMap[cid];
+    require(t.flag);
+    return t.name;
+  }
+
+  function getOwnerAddress(uint tCid) public view returns (address) {
+    Team storage t = idToTeamMap[tCid];
+    require(t.flag);
+    return t.creator;
+  }
+
   event CandidateToken(uint256);
 
   // Add a candidate
-  function addCandidate(uint cid, string calldata name) public returns (uint) {
+  function addCandidate(uint cid, string calldata name) public {
     Team storage t = getTeam(cid);
     //If team exists
-    if (t.flag) {
-      uint cidc = randMod();
-      Candidate storage c = t.candidateMapping[cidc];
-      c.name = name;
-      c.flag = true;
-      c.add = msg.sender;
-      t.cidArr.push(cidc);
-      emit CandidateToken(cidc);
-      return cidc;
-    }
-    return 0;
+    require(t.flag);
+    uint cidc = randMod();
+    Candidate storage c = t.candidateMapping[cidc];
+    c.name = name;
+    c.flag = true;
+    c.add = msg.sender;
+    t.cidArr.push(cidc);
+    emit CandidateToken(cidc);
   }
 
   event TeamID(uint256 cidc);
@@ -140,5 +149,16 @@ contract CandidateHandler {
     Candidate storage c = t.candidateMapping[cid];
     require(c.flag);
     return c.votes;
+  }
+
+  function getCandidateAddress(
+    uint tCid,
+    uint cid
+  ) external view returns (address) {
+    Team storage t = getTeam(tCid);
+    require(t.flag);
+    Candidate storage c = t.candidateMapping[cid];
+    require(c.flag);
+    return c.add;
   }
 }

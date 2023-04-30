@@ -9,6 +9,7 @@ async function verify(contractAddress) {
 }
 
 async function main() {
+  try{
   const [deployer] = await hre.ethers.getSigners();
 
   console.log("Deploying contracts with the account:", deployer.address);
@@ -24,12 +25,10 @@ async function main() {
   await writeFile('contract.txt', candidateHandler.address);
   await verify(candidateHandler.address);
   console.log("The contract has been verified");
-  
+  }catch(err) {
+    console.log(err);
+  }
 }
 
 main()
   .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
