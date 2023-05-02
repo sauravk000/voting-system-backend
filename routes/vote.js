@@ -6,7 +6,7 @@ const router = Router();
 router.use(authorize);
 
 router.get('/getContractAddress', async (req, res) => {
-  res.json({ contractAddress:  await getContractAddress(), abi: await getabi()});
+  res.json({info:"This has been shifted to the frontend."});
 });
 
 router.get('/', (req, res) => {

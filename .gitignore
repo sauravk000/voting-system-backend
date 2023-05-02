@@ -1,3 +1,6 @@
+contracts/
+scripts/
+
 contract.txt
 coverage.json
 typechain
