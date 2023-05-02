@@ -4,6 +4,7 @@ import candidate from './routes/candidate.js';
 import user from './routes/user.js';
 import vote from './routes/vote.js';
 import team from './routes/team.js';
+import test from './routes/test.js';
 import 'dotenv/config';
 
 const PORT = process.env.PORT;
@@ -20,6 +21,8 @@ app.use('/user', user);
 app.use('/vote', vote);
 
 app.use('/team', team);
+
+app.use('/test', test);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
