@@ -6,6 +6,7 @@ import vote from './routes/vote.js';
 import team from './routes/team.js';
 import test from './routes/test.js';
 import 'dotenv/config';
+import { connectDB } from './db/connection.js';
 
 const PORT = process.env.PORT;
 
@@ -24,6 +25,8 @@ app.use('/team', team);
 
 app.use('/test', test);
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });
 });

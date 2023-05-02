@@ -6,10 +6,16 @@ const { DB_URI } = process.env;
 mongoose.set('strictQuery', false);
 
 //Connecting to MongoDB server
-mongoose.connect(DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+export const connectDB = async function () {
+  try {
+    const conn = await mongoose.connect(DB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 //Various events
 mongoose.connection
