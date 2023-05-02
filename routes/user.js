@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
     //Creates a new user
     const user = await User.create(req.body);
 
-    res.json({success: true});
+    res.json({ success: true });
   } catch (err) {
     res.status(400).json({ error: err });
   }
@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
       if (result) {
         // Signing the token
         const token = jwt.sign({ username: user.username }, SECRET, {
-          expiresIn: '1d',
+          expiresIn: '2d',
         });
         res.json({ token, isCandidate: user.isCandidate });
       } else {

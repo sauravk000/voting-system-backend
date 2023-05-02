@@ -1,4 +1,4 @@
-import mongoose from '../db/connection.js';
+import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const teamSchema = new Schema({
@@ -12,9 +12,9 @@ const teamSchema = new Schema({
   },
   candidates: {
     type: [String],
-    required: false
-  }
-})
+    required: false,
+  },
+});
 
 const Team = model('Team', teamSchema);
 

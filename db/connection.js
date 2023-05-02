@@ -17,6 +17,8 @@ export const connectDB = async function () {
   }
 };
 
+connectDB();
+
 //Various events
 mongoose.connection
   .on('open', () => {
