@@ -1,5 +1,6 @@
 contracts/
 scripts/
+utils/
 
 contract.txt
 coverage.json

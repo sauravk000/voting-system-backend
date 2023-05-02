@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import authorize from '../auth/authorize.js';
-import { getContractAddress, getabi } from '../utils/constants.js';
+// import { getContractAddress, getabi } from '../utils/constants.js';
 const router = Router();
 
 router.use(authorize);
